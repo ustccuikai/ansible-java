@@ -1,0 +1,13 @@
+#Create directory for configure Prometheus 
+#- name: Create data dir for MGR instances {{item.port}}
+#  file:  path={{mgr_base_dir}}/{{item.port}}/data state=directory owner=mysql group=mysql mode=0751
+#  loop: "{{instances}}"
+
+- name: Create log dir for MGR instances
+  file:  path={{mgr_base_dir}}/{{item.port}}/log state=directory owner=mysql group=mysql mode=0755
+  loop: "{{instances}}"
+  
+- name: Copy my.cnf to instance home dir 
+  template: src="my.cnf" dest="{{mgr_base_dir}}/{{item.port}}/my.cnf" 
+  loop: "{{instances}}"
+#- include: config.yml

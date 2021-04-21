@@ -1,0 +1,41 @@
+---
+# tasks file for prometheus
+#- name: Configure instances
+#  debug:
+#    msg:
+#      - "Port is {{item.port}}"
+#      - "mysqlx port is {{item.mysqlx_port}}"
+#  loop: "{{instances}}"
+#- name: Generate UUID for MySQL Group Replication
+#  shell: uuidgen
+#  register: uuid
+- name: Bind UUID to group name 
+  set_fact: 
+    group_name: "{{ ((groups['mgr'] | join(':')))| to_uuid}}"
+
+- name: Configure MySQL Group Replication with group name {{group_name}} 
+  include_tasks:
+    file: configure.yml
+- name: Initialize all MySQL instances
+  include_tasks:
+    file: initialize.yml
+  loop: "{{instances}}"
+
+- name: Change datadir Owner to mysql
+  file: dest={{mgr_base_dir}}/{{item.port}}/data owner=mysql group=mysql recurse=yes
+  loop: "{{instances}}"
+
+- name: Change logdir Owner to mysql
+  file: dest={{mgr_base_dir}}/{{item.port}}/log owner=mysql group=mysql recurse=yes
+  loop: "{{instances}}"
+
+- name: Set Selinux policies 
+  include_tasks:
+    file: selinux.yml 
+    apply:
+      tags:
+        - selinux
+  tags: always
+- name: Boot MySQL instances
+  include_tasks:
+    file: boot.yml 
