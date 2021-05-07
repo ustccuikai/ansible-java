@@ -1,4 +1,4 @@
-package com.ansbile.inventory.model;
+package com.ansbile.model;
 
 import java.util.*;
 

@@ -1,10 +1,10 @@
 package com.ansbile;
 
 import com.ansbile.inventory.AnsibleInventoryWriter;
-import com.ansbile.inventory.model.AnsibleHost;
-import com.ansbile.inventory.model.AnsibleInventory;
-import com.ansbile.inventory.model.AnsibleVariable;
-import com.ansbile.inventory.model.AnsibleGroup;
+import com.ansbile.model.AnsibleHost;
+import com.ansbile.model.AnsibleInventory;
+import com.ansbile.model.AnsibleVariable;
+import com.ansbile.model.AnsibleGroup;
 import com.google.common.collect.Lists;
 
 import java.io.File;

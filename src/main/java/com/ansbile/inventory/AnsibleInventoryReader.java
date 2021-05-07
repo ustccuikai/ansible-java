@@ -1,9 +1,9 @@
 package com.ansbile.inventory;
 
-import com.ansbile.inventory.model.AnsibleHost;
-import com.ansbile.inventory.model.AnsibleInventory;
-import com.ansbile.inventory.model.AnsibleVariable;
-import com.ansbile.inventory.model.AnsibleGroup;
+import com.ansbile.model.AnsibleHost;
+import com.ansbile.model.AnsibleInventory;
+import com.ansbile.model.AnsibleVariable;
+import com.ansbile.model.AnsibleGroup;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
