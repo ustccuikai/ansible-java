@@ -1,5 +1,8 @@
 package com.ansbile.exec;
 
+import com.ansbile.config.AnsibleConfig;
+import com.ansbile.config.AnsiblePlaybookArgs;
+import com.ansbile.config.AnsiblePlaybookArgsBuilder;
 import com.ansbile.model.*;
 import com.ansbile.service.TaskMemberService;
 import com.ansbile.util.TimeUtils;
@@ -21,11 +24,19 @@ public class AnsibleExecutorHandler {
     @Resource
     private TaskMemberService taskMemberService;
 
-    public void execute(TaskMember member, CommandLine commandLine, Long timeout) {
+    @Resource
+    private AnsibleConfig ansibleConfig;
+
+    //子任务状态修改
+    //子任务执行失败时需要修改主任务结束状态为强制停止TASK_STOP
+    public void execute(TaskMember member, AnsiblePlaybookArgs ansibleArgs, Long timeout) {
         if (timeout == 0)
             timeout = MAX_TIMEOUT;
 
         try {
+            CommandLine commandLine = AnsiblePlaybookArgsBuilder.build(ansibleConfig, ansibleArgs);
+            System.out.println(commandLine);
+
             final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
             ExecutorEngine executorEngine = ExecutorEngineBuilder.build(timeout);
             executorEngine.execute(commandLine, resultHandler);

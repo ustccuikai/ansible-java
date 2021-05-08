@@ -7,17 +7,23 @@ import com.ansbile.model.*;
 import com.ansbile.service.TaskMemberService;
 import com.ansbile.service.TaskService;
 import com.ansbile.service.impl.DeploySchemaRegister;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cuikai on 2021/4/26.
  */
 @Component
+@Slf4j
 public class AnsibleTaskHandler {
 
     @Resource
@@ -30,14 +36,15 @@ public class AnsibleTaskHandler {
     private DeploySchemaRegister deploySchemaRegister;
 
     @Resource
-    private AnsibleConfig ansibleConfig;
-
-    @Resource
     private AnsibleExecutorHandler ansibleExecutorHandler;
 
     public void call(Task task) {
         // 1. 生成子任务，不同的部署类型生成的子任务不一样
-        List<TaskMember> taskMembers = deploySchemaRegister.getDeploySchemaService(task.getTaskType()).buildTaskMembers(task);
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
+        Map<String, String> hostPatternMap = new GsonBuilder().create().fromJson(task.getHostsMap(), type);
+
+        List<TaskMember> taskMembers = deploySchemaRegister.getDeploySchemaService(task.getTaskType()).buildTaskMembers(task, hostPatternMap);
         // 更新子任务数量
         task.setTaskSize(taskMembers.size());
         taskService.updateTask(task);
@@ -60,8 +67,10 @@ public class AnsibleTaskHandler {
             }
             // 判断主任务是否结束
             task = taskService.queryTaskById(task.getId());
-            if (task.getStopType() == TaskStopType.TASK_STOP.getType())
+            if (task.getStopType() == TaskStopType.TASK_STOP.getType()) {
                 exit = true;
+            }
+
             try {
                 Thread.sleep(1000);
             } catch (Exception ignored) {
@@ -70,7 +79,7 @@ public class AnsibleTaskHandler {
     }
 
 
-    private void executorPlaybook(List<TaskMember> memberList) throws Exception {
+    private void executorPlaybook(List<TaskMember> memberList) {
         for (TaskMember member : memberList) {
             member.setTaskStatus(TaskStatus.EXECUTING.getStatus());
             taskMemberService.updateTaskMember(member);
@@ -88,9 +97,7 @@ public class AnsibleTaskHandler {
                     .inventory(inventory)
                     .build();
 
-            CommandLine commandLine = AnsiblePlaybookArgsBuilder.build(ansibleConfig, ansibleArgs);
-            System.out.println(commandLine);
-            ansibleExecutorHandler.execute(member, commandLine, (long) (1000 * 60 * 30));
+            ansibleExecutorHandler.execute(member, ansibleArgs, (long) (1000 * 60 * 30));
         }
     }
 }

@@ -14,12 +14,15 @@ public class Task {
 
     /**
      * 对应的任务类型，比如
-     * MySQL主从（半同步）+ Orchestor（三节点）
-     * MySQL主从（半同步）+ Orchestor（三节点）+HAproxy（多节点）+Consul（三节点）
-     * MGR + Consul（三节点）
+     * SemiSync:MySQL主从（半同步）+ Orchestor（三节点）
+     * SemiSyncHA:MySQL主从（半同步）+ Orchestor（三节点）+HAproxy（多节点）+Consul（三节点）
+     * MGR: MGR + Consul（三节点）
      */
     @Column(name = "task_type")
     private String taskType;
+
+    @Column(name = "hosts_map")
+    private String hostsMap;
 
     @Column(name = "task_param")
     private String taskParam;

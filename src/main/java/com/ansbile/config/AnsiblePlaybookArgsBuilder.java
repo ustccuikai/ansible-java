@@ -48,8 +48,6 @@ public class AnsiblePlaybookArgsBuilder {
             File ansibleFile = ResourceUtils.getFile("classpath:ansible");
             System.out.println(ansibleFile.getAbsolutePath() + "/" + args.getPlaybookName() + ".yml");
             commandLine.addArgument(ansibleFile.getAbsolutePath() + "/" + args.getPlaybookName() + ".yml");
-        } else {
-            throw new Exception("playbook info required");
         }
 
         return commandLine;
@@ -72,7 +70,8 @@ public class AnsiblePlaybookArgsBuilder {
         // 指定主机文件，如果不指定则用默认主机文件
         commandLine.addArgument("-i");
         if (args.getInventory() != null) {
-            File inventoryFile =  new File("test_hosts");//TODO
+            String path = ResourceUtils.getURL("classpath:").getPath();
+            File inventoryFile =  new File(path, args.getPlaybookName() + "_" + System.currentTimeMillis());
             AnsibleInventoryWriter.write(args.getInventory(), inventoryFile);
             commandLine.addArgument(inventoryFile.getAbsolutePath());
         } else if (StringUtils.hasLength(args.getInventoryFile())) {
