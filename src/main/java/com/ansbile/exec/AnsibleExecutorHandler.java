@@ -48,15 +48,15 @@ public class AnsibleExecutorHandler {
             if (member.getTaskStatus().equals(TaskStatus.QUEUE.getStatus())) {
                 resultHandler.waitFor(500);
                 if (executorEngine.isWatching()) {
-                    log.info("任务启动成功! id = {} ; isWatching = {} ; taskStatus = {}", member.getId(), executorEngine.isWatching(), member.getTaskStatus());
                     member.setTaskStatus(TaskStatus.EXECUTING.getStatus());
                     taskMemberService.updateTaskMember(member);
+                    log.info("任务启动成功! id = {} ; isWatching = {} ; taskStatus = {}", member.getId(), executorEngine.isWatching(), member.getTaskStatus());
                 } else {
-                    log.info("任务启动失败! id = {} ; isWatching = {} ; taskStatus = {}", member.getId(), executorEngine.isWatching(), member.getTaskStatus());
                     member.setExitValue(1);
                     member.setFinalized(1);
                     member.setTaskStatus(TaskStatus.FINALIZED.getStatus());
                     taskMemberService.updateTaskMember(member);
+                    log.info("任务启动失败! id = {} ; isWatching = {} ; taskStatus = {}", member.getId(), executorEngine.isWatching(), member.getTaskStatus());
                     return;
                 }
             }
@@ -64,11 +64,9 @@ public class AnsibleExecutorHandler {
             while (true) {
                 resultHandler.waitFor(1000);
 
-                // 执行日志写入redis
-//                taskLogRecorder.recorderLog(member.getId(), executorEngine);
+                taskMemberService.updateTaskMemberLog(member.getId(), executorEngine.getOutputMsg(),
+                        executorEngine.getErrorMsg());
 
-//                log.info("output msg:" + executorEngine.getOutputMsg());
-//                log.error("error msg:" + executorEngine.getErrorMsg());
                 // 任务结束
                 if (resultHandler.hasResult()) {
                     TaskStatusBO taskStatus = TaskStatusBO.builder()
@@ -96,32 +94,10 @@ public class AnsibleExecutorHandler {
         member.setExitValue(taskStatus.getExitValue());
         member.setStopType(taskStatus.getStopType());
         member.setTaskStatus(taskStatus.getTaskStatus());
-        // 写入并清空日志
-        MemberExecutorLogBO memberExecutorLogBO = taskLogRecorder.getLog(member.getId());
-        if (memberExecutorLogBO != null) {
-            try {
-                if (!StringUtils.isEmpty(memberExecutorLogBO.getOutputMsg())) {
-                    String outputLogPath = taskLogRecorder.getOutputLogPath(member);   //Joiner.on("/").join(playbookLogPath,member.getId() + "_output.log" );
-                    member.setOutputMsg(outputLogPath);
-                }
-            } catch (Exception e) {
-                log.error("记录执行日志OutputMsg错误, memberId = {}", member.getId());
-            }
-            try {
-                if (!StringUtils.isEmpty(memberExecutorLogBO.getErrorMsg())) {
-                    String errorLogPath = taskLogRecorder.getErrorLogPath(member); //Joiner.on("/").join(playbookLogPath,member.getId() + "_error.log" );
-                    member.setErrorMsg(errorLogPath);
-                }
-            } catch (Exception e) {
-                log.error("记录执行日志ErrorMsg错误, memberId = {}", member.getId());
-            }
-            taskLogRecorder.clearLog(member.getId());
-        }
 
         if (!StringUtils.isEmpty(taskStatus.getTaskResult()))
             member.setTaskResult(taskStatus.getTaskResult());
 
         taskMemberService.updateTaskMember(member);
     }
-
 }

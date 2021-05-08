@@ -13,6 +13,8 @@ public interface TaskMemberService {
 
     TaskMember queryTaskMemberById(int id);
 
+    void updateTaskMemberLog(int id, String outputMsg, String errorMsg);
+
     List<TaskMember> queryTaskMemberByTaskStatus(int taskId, String taskStatus, int size);
 
     int countTaskMemberByTaskStatus(int taskId, String taskStatus, int size);

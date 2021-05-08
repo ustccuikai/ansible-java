@@ -1,8 +1,6 @@
 package com.ansbile.exec;
 
-import com.ansbile.config.AnsibleConfig;
 import com.ansbile.config.AnsiblePlaybookArgs;
-import com.ansbile.config.AnsiblePlaybookArgsBuilder;
 import com.ansbile.model.*;
 import com.ansbile.service.TaskMemberService;
 import com.ansbile.service.TaskService;
@@ -10,7 +8,6 @@ import com.ansbile.service.impl.DeploySchemaRegister;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.util.StringUtils;
 import org.springframework.stereotype.Component;
 

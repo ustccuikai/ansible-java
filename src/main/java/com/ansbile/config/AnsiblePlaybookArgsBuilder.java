@@ -71,7 +71,12 @@ public class AnsiblePlaybookArgsBuilder {
         commandLine.addArgument("-i");
         if (args.getInventory() != null) {
             String path = ResourceUtils.getURL("classpath:").getPath();
-            File inventoryFile =  new File(path, args.getPlaybookName() + "_" + System.currentTimeMillis());
+            File inventoryPath = new File(path, "inventory");
+            if (!inventoryPath.exists()) {
+                inventoryPath.mkdir();
+            }
+            File inventoryFile = new File(inventoryPath, args.getPlaybookName() + "_" + System.currentTimeMillis());
+            System.out.println(inventoryFile.getAbsolutePath());
             AnsibleInventoryWriter.write(args.getInventory(), inventoryFile);
             commandLine.addArgument(inventoryFile.getAbsolutePath());
         } else if (StringUtils.hasLength(args.getInventoryFile())) {

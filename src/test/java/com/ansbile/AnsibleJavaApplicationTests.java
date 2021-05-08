@@ -3,10 +3,8 @@ package com.ansbile;
 import com.ansbile.config.AnsibleConfig;
 import com.ansbile.config.AnsiblePlaybookArgsBuilder;
 import com.ansbile.exec.AnsibleExecutorHandler;
-import com.ansbile.model.AnsibleHost;
-import com.ansbile.model.AnsibleInventory;
+import com.ansbile.model.*;
 import com.ansbile.config.AnsiblePlaybookArgs;
-import com.ansbile.model.AnsibleGroup;
 import org.apache.commons.exec.CommandLine;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +32,9 @@ class AnsibleJavaApplicationTests {
                 .inventory(inventory)
                 .build();
 
-        CommandLine commandLine = AnsiblePlaybookArgsBuilder.build(ansibleConfig, ansibleArgs);
-        System.out.println(commandLine);
-        ansibleExecutorHandler.execute(null, commandLine, (long) (1000 * 60 * 30));
+        TaskMember member = TaskMember.builder().id(1).taskStatus(TaskStatus.QUEUE.getStatus()).build();
+
+        ansibleExecutorHandler.execute(member, ansibleArgs, (long) (1000 * 60 * 30));
     }
 
 }
