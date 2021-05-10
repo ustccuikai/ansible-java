@@ -6,15 +6,11 @@ import com.ansbile.service.TaskMemberService;
 import com.ansbile.service.TaskService;
 import com.ansbile.service.impl.DeploySchemaRegister;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.exec.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cuikai on 2021/4/26.
@@ -37,17 +33,14 @@ public class AnsibleTaskHandler {
 
     /**
      * taskType: 安装类型
-     * hostsMap: Map<group,IP1;IP2;IP3>
+     * inventoryJson: inventory的JSON
      * taskParam: 参数，Map形式传递和存储
      * @param task
      */
     public void call(Task task) {
         // 1. 生成子任务，不同的部署类型生成的子任务不一样
-        Type type = new TypeToken<Map<String, String>>() {
-        }.getType();
-        Map<String, String> hostPatternMap = new GsonBuilder().create().fromJson(task.getHostsMap(), type);
-
-        List<TaskMember> taskMembers = deploySchemaRegister.getDeploySchemaService(task.getTaskType()).buildTaskMembers(task, hostPatternMap);
+        List<TaskMember> taskMembers = deploySchemaRegister.getDeploySchemaService(task.getTaskType()).
+                buildTaskMembers(task);
         // 更新子任务数量
         task.setTaskSize(taskMembers.size());
         taskService.updateTask(task);
@@ -87,13 +80,8 @@ public class AnsibleTaskHandler {
             member.setTaskStatus(TaskStatus.EXECUTING.getStatus());
             taskMemberService.updateTaskMember(member);
 
-            AnsibleInventory inventory = new AnsibleInventory();
-            AnsibleGroup group = new AnsibleGroup(member.getGroup());
-            inventory.addGroup(group);
-            String[] hosts = StringUtils.split(member.getHosts(), ";");
-            for (String host : hosts) {
-                group.addHost(new AnsibleHost(host));
-            }
+            AnsibleInventory inventory = new GsonBuilder().create().fromJson(
+                    member.getInventoryJson(), AnsibleInventory.class);
 
             AnsiblePlaybookArgs ansibleArgs = AnsiblePlaybookArgs.builder()
                     .playbookName(member.getPlayBookName())

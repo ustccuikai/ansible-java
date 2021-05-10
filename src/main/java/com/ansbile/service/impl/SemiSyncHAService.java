@@ -6,7 +6,6 @@ import com.ansbile.service.DeploySchemaService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cuikai on 2021/5/7.
@@ -15,7 +14,7 @@ import java.util.Map;
 public class SemiSyncHAService implements DeploySchemaService {
 
     @Override
-    public List<TaskMember> buildTaskMembers(Task task, Map<String, String> groupHostsMap) {
+    public List<TaskMember> buildTaskMembers(Task task) {
         return null;
     }
 }

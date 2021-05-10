@@ -17,11 +17,11 @@ public class TaskMember {
     @Column(name = "task_id")
     private Integer taskId;
 
-    @Column(name = "group")
-    private String group;
+    @Column(name = "inventory_json")
+    private String inventoryJson;
 
-    @Column(name = "hosts")
-    private String hosts;
+//    @Column(name = "hosts")
+//    private String hosts;
 
 //    @Column(name = "member_type")
 //    private String memberType;

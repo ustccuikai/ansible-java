@@ -23,9 +23,6 @@ public class AnsibleExecutorHandler {
     @Resource
     private TaskMemberService taskMemberService;
 
-//    @Resource
-//    private AnsibleConfig ansibleConfig;
-
     //子任务状态修改
     //子任务执行失败时需要修改主任务结束状态为强制停止TASK_STOP
     public void execute(TaskMember member, AnsiblePlaybookArgs ansibleArgs, Long timeout) {

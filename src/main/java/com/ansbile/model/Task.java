@@ -21,8 +21,8 @@ public class Task {
     @Column(name = "task_type")
     private String taskType;
 
-    @Column(name = "hosts_map")
-    private String hostsMap;
+    @Column(name = "inventory_json")
+    private String inventoryJson;
 
     @Column(name = "task_param")
     private String taskParam;
