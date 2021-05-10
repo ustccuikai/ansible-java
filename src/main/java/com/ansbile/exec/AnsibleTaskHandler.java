@@ -37,7 +37,7 @@ public class AnsibleTaskHandler {
 
     /**
      * taskType: 安装类型
-     * hostsMap: Map<hosts_name,IP1;IP2;IP3>
+     * hostsMap: Map<group,IP1;IP2;IP3>
      * taskParam: 参数，Map形式传递和存储
      * @param task
      */

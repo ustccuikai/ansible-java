@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public class AnsiblePlaybookArgsBuilder {
-    public final static String ANSIBLE_HOSTS = "ansible_hosts";
+    public final static String ANSIBLE_PLAYBOOK = "ansible-playbook";
 
-    public static CommandLine build(AnsibleConfig config, AnsiblePlaybookArgs args) throws Exception {
+    public static CommandLine build(AnsiblePlaybookArgs args) throws Exception {
 
-        CommandLine commandLine =  buildCommandLine(config, args);
+        CommandLine commandLine = buildCommandLine(ANSIBLE_PLAYBOOK, args);
 
         if (args.isVersion())
             return commandLine;
@@ -53,8 +53,8 @@ public class AnsiblePlaybookArgsBuilder {
         return commandLine;
     }
 
-    private static CommandLine buildCommandLine(AnsibleConfig config, AnsiblePlaybookArgs args) throws IOException {
-        CommandLine commandLine = new CommandLine(config.getPlaybookBin());
+    private static CommandLine buildCommandLine(String command, AnsiblePlaybookArgs args) throws IOException {
+        CommandLine commandLine = new CommandLine(command);
 
         if (args.isVersion()) {
             commandLine.addArgument("--version");
@@ -81,8 +81,6 @@ public class AnsiblePlaybookArgsBuilder {
             commandLine.addArgument(inventoryFile.getAbsolutePath());
         } else if (StringUtils.hasLength(args.getInventoryFile())) {
             commandLine.addArgument(args.getInventoryFile());
-        } else {
-            commandLine.addArgument(Joiner.on("/").join(config.acqInventoryPath(), ANSIBLE_HOSTS));
         }
 
         // remote-user

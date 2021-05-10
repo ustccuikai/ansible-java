@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface DeploySchemaService {
 
-    List<TaskMember> buildTaskMembers(Task task, Map<String, String> hostPatternMap);
+    List<TaskMember> buildTaskMembers(Task task, Map<String, String> groupHostsMap);
 
 }

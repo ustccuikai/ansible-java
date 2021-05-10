@@ -15,7 +15,7 @@ import java.util.Map;
 public class SemiSyncHAService implements DeploySchemaService {
 
     @Override
-    public List<TaskMember> buildTaskMembers(Task task, Map<String, String> hostPatternMap) {
+    public List<TaskMember> buildTaskMembers(Task task, Map<String, String> groupHostsMap) {
         return null;
     }
 }
