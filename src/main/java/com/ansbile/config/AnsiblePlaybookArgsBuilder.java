@@ -18,9 +18,6 @@ public class AnsiblePlaybookArgsBuilder {
 
         CommandLine commandLine = buildCommandLine(ANSIBLE_PLAYBOOK, args);
 
-        if (args.isVersion())
-            return commandLine;
-
         // 外部变量
         Map<String, String> extraVarsMap = Maps.newHashMap();
         if (args.getExtraVars() != null)
@@ -38,7 +35,7 @@ public class AnsiblePlaybookArgsBuilder {
         // 标签执行 -t task1,task2
         if (args.getTags() != null && !args.getTags().isEmpty()) {
             commandLine.addArgument("-t");
-            commandLine.addArgument(Joiner.on(",").join(args.getTags()));
+            commandLine.addArgument(args.getTags());
         }
 
         // playbook脚本
@@ -55,11 +52,6 @@ public class AnsiblePlaybookArgsBuilder {
 
     private static CommandLine buildCommandLine(String command, AnsiblePlaybookArgs args) throws IOException {
         CommandLine commandLine = new CommandLine(command);
-
-        if (args.isVersion()) {
-            commandLine.addArgument("--version");
-            return commandLine;
-        }
 
         // use this file to authenticate the connection
         if (StringUtils.hasLength(args.getKeyFile())) {

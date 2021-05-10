@@ -26,8 +26,11 @@ public class TaskMember {
 //    @Column(name = "member_type")
 //    private String memberType;
 
-    @Column(name = "play_book_name")
-    private String playBookName;
+    @Column(name = "playbook_name")
+    private String playbookName;
+
+    @Column(name = "playbook_tags")
+    private String playbookTags;
 
     @Column(name = "executor_param")
     private String executorParam;

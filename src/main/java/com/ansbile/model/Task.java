@@ -12,6 +12,10 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //mysql集群id，安装时自动生成
+    @Column(name = "mysql_group_id")
+    private String mysqlGroupId;
+
     /**
      * 对应的任务类型，比如
      * SemiSync:MySQL主从（半同步）+ Orchestor（三节点）

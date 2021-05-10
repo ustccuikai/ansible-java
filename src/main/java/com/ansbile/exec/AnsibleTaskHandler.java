@@ -2,6 +2,7 @@ package com.ansbile.exec;
 
 import com.ansbile.config.AnsiblePlaybookArgs;
 import com.ansbile.model.*;
+import com.ansbile.service.DeploySchemaService;
 import com.ansbile.service.TaskMemberService;
 import com.ansbile.service.TaskService;
 import com.ansbile.service.impl.DeploySchemaRegister;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by cuikai on 2021/4/26.
@@ -35,12 +37,17 @@ public class AnsibleTaskHandler {
      * taskType: 安装类型
      * inventoryJson: inventory的JSON
      * taskParam: 参数，Map形式传递和存储
+     *
+     * 安装成功后，后置任务: 写入mysql集群表....
      * @param task
      */
     public void call(Task task) {
-        // 1. 生成子任务，不同的部署类型生成的子任务不一样
-        List<TaskMember> taskMembers = deploySchemaRegister.getDeploySchemaService(task.getTaskType()).
-                buildTaskMembers(task);
+        //0. 生成mysql集群id
+        task.setMysqlGroupId(UUID.randomUUID().toString().replace("-", "").toLowerCase());
+
+        DeploySchemaService deployService = deploySchemaRegister.getDeploySchemaService(task.getTaskType());
+        //1. 生成子任务，不同的部署类型生成的子任务不一样
+        List<TaskMember> taskMembers = deployService.buildTaskMembers(task);
         // 更新子任务数量
         task.setTaskSize(taskMembers.size());
         taskService.updateTask(task);
@@ -67,6 +74,11 @@ public class AnsibleTaskHandler {
                 exit = true;
             }
 
+            //任务完成后执行后置处理
+            if (task.getStopType() == TaskStopType.COMPLETE_STOP.getType()) {
+                deployService.postProcessor(task);
+            }
+
             try {
                 Thread.sleep(1000);
             } catch (Exception ignored) {
@@ -84,7 +96,8 @@ public class AnsibleTaskHandler {
                     member.getInventoryJson(), AnsibleInventory.class);
 
             AnsiblePlaybookArgs ansibleArgs = AnsiblePlaybookArgs.builder()
-                    .playbookName(member.getPlayBookName())
+                    .playbookName(member.getPlaybookName())
+                    .tags(member.getPlaybookTags())
                     .inventory(inventory)
                     .build();
 

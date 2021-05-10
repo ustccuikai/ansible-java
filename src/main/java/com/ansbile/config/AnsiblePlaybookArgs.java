@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Map;
-import java.util.Set;
 
 @Data
 @Builder
@@ -41,7 +40,7 @@ public class AnsiblePlaybookArgs {
     /**
      * -t TAGS, --tags TAGS  only run plays and tasks tagged with these values
      */
-    private Set<String> tags;
+    private String tags;
 
 
     @Builder.Default
@@ -73,7 +72,4 @@ public class AnsiblePlaybookArgs {
      *                         connection debugging)
      */
     private String verbose;
-
-    @Builder.Default
-    private boolean version = false;
 }

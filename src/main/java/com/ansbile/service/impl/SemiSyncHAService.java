@@ -17,4 +17,9 @@ public class SemiSyncHAService implements DeploySchemaService {
     public List<TaskMember> buildTaskMembers(Task task) {
         return null;
     }
+
+    @Override
+    public void postProcessor(Task task) {
+
+    }
 }
