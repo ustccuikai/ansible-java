@@ -17,20 +17,14 @@ public class TaskMember {
     @Column(name = "task_id")
     private Integer taskId;
 
-    /**
-     * 主机模式
-     */
-    @Column(name = "host_pattern")
-    private String hostPattern;
+    @Column(name = "group")
+    private String group;
 
     @Column(name = "hosts")
     private String hosts;
 
-    /**
-     * 子任务类型
-     */
-    @Column(name = "member_type")
-    private String memberType;
+//    @Column(name = "member_type")
+//    private String memberType;
 
     @Column(name = "play_book_name")
     private String playBookName;

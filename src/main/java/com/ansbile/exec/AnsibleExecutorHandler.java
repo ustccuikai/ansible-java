@@ -64,6 +64,7 @@ public class AnsibleExecutorHandler {
             while (true) {
                 resultHandler.waitFor(1000);
 
+                //每隔1s更新一次log
                 taskMemberService.updateTaskMemberLog(member.getId(), executorEngine.getOutputMsg(),
                         executorEngine.getErrorMsg());
 
@@ -74,6 +75,7 @@ public class AnsibleExecutorHandler {
                             .taskResult(AnsibleResult.getName(resultHandler.getExitValue()))
                             .stopType(resultHandler.getExitValue() == 0 ? TaskStopType.COMPLETE_STOP.getType() : -1)
                             .build();
+                    System.out.println(taskStatus);
                     saveServerTaskMember(member, taskStatus);
                     log.info("ExitValue is " + resultHandler.getExitValue());
                     return;

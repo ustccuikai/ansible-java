@@ -35,6 +35,12 @@ public class AnsibleTaskHandler {
     @Resource
     private AnsibleExecutorHandler ansibleExecutorHandler;
 
+    /**
+     * taskType: 安装类型
+     * hostsMap: Map<hosts_name,IP1;IP2;IP3>
+     * taskParam: 参数，Map形式传递和存储
+     * @param task
+     */
     public void call(Task task) {
         // 1. 生成子任务，不同的部署类型生成的子任务不一样
         Type type = new TypeToken<Map<String, String>>() {
@@ -82,7 +88,7 @@ public class AnsibleTaskHandler {
             taskMemberService.updateTaskMember(member);
 
             AnsibleInventory inventory = new AnsibleInventory();
-            AnsibleGroup group = new AnsibleGroup(member.getHostPattern());
+            AnsibleGroup group = new AnsibleGroup(member.getGroup());
             inventory.addGroup(group);
             String[] hosts = StringUtils.split(member.getHosts(), ";");
             for (String host : hosts) {
