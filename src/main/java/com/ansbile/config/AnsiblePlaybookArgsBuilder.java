@@ -27,6 +27,10 @@ public class AnsiblePlaybookArgsBuilder {
             extraVarsMap.put("hosts", args.getHosts());
         }
 
+        if (StringUtils.hasLength(args.getBecomePassword())) {
+            extraVarsMap.put("ansible_become_password", args.getBecomePassword());
+        }
+
         if (!extraVarsMap.isEmpty()) {
             commandLine.addArgument("-e");
             commandLine.addArgument(convertExtraVars(extraVarsMap), false);

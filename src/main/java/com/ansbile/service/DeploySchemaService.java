@@ -5,11 +5,22 @@ import com.ansbile.model.TaskMember;
 
 import java.util.List;
 
-public interface DeploySchemaService {
+public abstract class DeploySchemaService {
 
-    //orchestrator复用与否生成的ansible的任务不一样
-    List<TaskMember> buildTaskMembers(Task task);
+    public abstract List<TaskMember> buildTaskMembers(Task task);
 
     //安装成功后执行后置处理
-    void postProcessor(Task task);
+    public abstract void postProcessor(Task task);
+
+    public TaskMember buildTaskMember(Task task, String playbookName, String param, String tags) {
+        return TaskMember.builder()
+                .playbookName(playbookName)
+                .playbookTags(tags)
+                .executorParam(param)
+                .inventoryJson(task.getInventoryJson()).build();
+    }
+
+    public TaskMember buildTaskMember(Task task, String playbookName) {
+       return buildTaskMember(task, playbookName, null, null);
+    }
 }

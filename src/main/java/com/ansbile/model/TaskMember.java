@@ -26,6 +26,9 @@ public class TaskMember {
 //    @Column(name = "member_type")
 //    private String memberType;
 
+    @Column(name = "become_password")
+    private String becomePassword;
+
     @Column(name = "playbook_name")
     private String playbookName;
 

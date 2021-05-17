@@ -99,6 +99,7 @@ public class AnsibleTaskHandler {
                     .playbookName(member.getPlaybookName())
                     .tags(member.getPlaybookTags())
                     .inventory(inventory)
+                    .becomePassword(member.getBecomePassword())
                     .build();
 
             ansibleExecutorHandler.execute(member, ansibleArgs, (long) (1000 * 60 * 30));

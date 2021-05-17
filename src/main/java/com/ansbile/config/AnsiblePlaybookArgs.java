@@ -54,6 +54,11 @@ public class AnsiblePlaybookArgs {
     private String becomeUser = "root";
 
     /**
+     * -K,--ask-become-pass, ask for privilege escalation password
+     */
+    private String becomePassword;
+
+    /**
      * -u REMOTE_USER, --user REMOTE_USER
      *                         connect as this user (default=None)
      */

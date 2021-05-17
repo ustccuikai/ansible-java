@@ -11,7 +11,7 @@ import java.util.List;
  * Created by cuikai on 2021/5/7.
  */
 @Service("SemiSyncHA")
-public class SemiSyncHAService implements DeploySchemaService {
+public class SemiSyncHAService extends DeploySchemaService {
 
     @Override
     public List<TaskMember> buildTaskMembers(Task task) {
