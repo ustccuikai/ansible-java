@@ -4,8 +4,8 @@ import com.ansbile.inventory.AnsibleInventoryWriter;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +23,11 @@ public class AnsiblePlaybookArgsBuilder {
         if (args.getExtraVars() != null)
             extraVarsMap = args.getExtraVars();
 
-        if (StringUtils.hasLength(args.getHosts())) {
+        if (StringUtils.isNotBlank(args.getHosts())) {
             extraVarsMap.put("hosts", args.getHosts());
         }
 
-        if (StringUtils.hasLength(args.getBecomePassword())) {
+        if (StringUtils.isNotBlank(args.getBecomePassword())) {
             extraVarsMap.put("ansible_become_password", args.getBecomePassword());
         }
 
@@ -43,9 +43,7 @@ public class AnsiblePlaybookArgsBuilder {
         }
 
         // playbook脚本
-        if (StringUtils.hasLength(args.getPlaybook())) {
-            commandLine.addArgument(args.getPlaybook());
-        } else if (StringUtils.hasLength(args.getPlaybookName())) {
+        if (StringUtils.isNotBlank(args.getPlaybookName())) {
             File ansibleFile = ResourceUtils.getFile("classpath:ansible");
             System.out.println(ansibleFile.getAbsolutePath() + "/" + args.getPlaybookName() + ".yml");
             commandLine.addArgument(ansibleFile.getAbsolutePath() + "/" + args.getPlaybookName() + ".yml");
@@ -58,7 +56,7 @@ public class AnsiblePlaybookArgsBuilder {
         CommandLine commandLine = new CommandLine(command);
 
         // use this file to authenticate the connection
-        if (StringUtils.hasLength(args.getKeyFile())) {
+        if (StringUtils.isNotBlank(args.getKeyFile())) {
             commandLine.addArgument("--key-file");
             commandLine.addArgument(args.getKeyFile());
         }
@@ -75,12 +73,12 @@ public class AnsiblePlaybookArgsBuilder {
             System.out.println(inventoryFile.getAbsolutePath());
             AnsibleInventoryWriter.write(args.getInventory(), inventoryFile);
             commandLine.addArgument(inventoryFile.getAbsolutePath());
-        } else if (StringUtils.hasLength(args.getInventoryFile())) {
+        } else if (StringUtils.isNotBlank(args.getInventoryFile())) {
             commandLine.addArgument(args.getInventoryFile());
         }
 
         // remote-user
-        if (StringUtils.hasLength(args.getRemoteUser())) {
+        if (StringUtils.isNotBlank(args.getRemoteUser())) {
             commandLine.addArgument("--user");
             commandLine.addArgument(args.getRemoteUser());
         }
@@ -88,7 +86,7 @@ public class AnsiblePlaybookArgsBuilder {
         commandLine.addArgument("--become");
         commandLine.addArgument("--become-method=sudo");
         commandLine.addArgument("--become-user");
-        if (StringUtils.hasLength(args.getBecomeUser())) {
+        if (StringUtils.isNotBlank(args.getBecomeUser())) {
             commandLine.addArgument(args.getBecomeUser());
         } else {
             commandLine.addArgument("root");

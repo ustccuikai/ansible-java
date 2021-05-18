@@ -6,12 +6,17 @@ import com.ansbile.service.DeploySchemaService;
 import com.ansbile.service.TaskMemberService;
 import com.ansbile.service.TaskService;
 import com.ansbile.service.impl.DeploySchemaRegister;
+import com.google.common.collect.Maps;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -95,11 +100,19 @@ public class AnsibleTaskHandler {
             AnsibleInventory inventory = new GsonBuilder().create().fromJson(
                     member.getInventoryJson(), AnsibleInventory.class);
 
+            Map<String, String> paramMap = Maps.newHashMap();
+            if (StringUtils.isNotBlank(member.getExecutorParam())) {
+                Type type = new TypeToken<Map<String, Map<String, String>>>() {
+                }.getType();
+                paramMap = new GsonBuilder().create().fromJson(member.getExecutorParam(), type);
+            }
+
             AnsiblePlaybookArgs ansibleArgs = AnsiblePlaybookArgs.builder()
                     .playbookName(member.getPlaybookName())
                     .tags(member.getPlaybookTags())
                     .inventory(inventory)
                     .becomePassword(member.getBecomePassword())
+                    .extraVars(paramMap)
                     .build();
 
             ansibleExecutorHandler.execute(member, ansibleArgs, (long) (1000 * 60 * 30));

@@ -10,11 +10,6 @@ import java.util.Map;
 @Data
 @Builder
 public class AnsiblePlaybookArgs {
-    /**
-     * Playbook(s)
-     */
-    private String playbook;
-
     private String playbookName;
 
     /**
