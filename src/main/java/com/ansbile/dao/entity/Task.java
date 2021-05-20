@@ -3,6 +3,8 @@ package com.ansbile.dao.entity;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,8 +20,8 @@ public class Task {
     private Long id;
 
     //mysql集群id，安装时自动生成
-    @Column(name = "mysql_group_id")
-    private String mysqlGroupId;
+    @Column(name = "mysql_cluster_id")
+    private String mysqlClusterId;
 
     /**
      * 对应的任务类型，比如
@@ -68,9 +70,11 @@ public class Task {
     @Column(name = "create_by")
     private Integer createBy;
 
+    @CreatedDate
     @Column(name = "create_time", insertable = false, updatable = false)
     private Date createTime;
 
+    @LastModifiedDate
     @Column(name = "update_time", insertable = false, updatable = false)
     private Date updateTime;
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -82,9 +84,11 @@ public class TaskMember {
     @Column(name = "error_msg", columnDefinition = "blob COMMENT '任务错误日志'")
     private String errorMsg;
 
+    @CreatedDate
     @Column(name = "create_time", insertable = false, updatable = false)
     private Date createTime;
 
+    @LastModifiedDate
     @Column(name = "update_time", insertable = false, updatable = false)
     private Date updateTime;
 }

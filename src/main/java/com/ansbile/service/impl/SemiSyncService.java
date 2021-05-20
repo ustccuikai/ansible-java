@@ -5,11 +5,14 @@ import com.ansbile.ansible.model.AnsibleInventory;
 import com.ansbile.dao.entity.Task;
 import com.ansbile.dao.entity.TaskMember;
 import com.ansbile.service.DeploySchemaService;
+import com.ansbile.service.MiddleWareInfoService;
+import com.ansbile.service.MysqlClusterService;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,12 @@ import java.util.Map;
  */
 @Service("SemiSync")
 public class SemiSyncService extends DeploySchemaService {
+
+    @Resource
+    private MysqlClusterService mysqlClusterService;
+
+    @Resource
+    private MiddleWareInfoService middleWareInfoService;
 
     @Override
     public List<TaskMember> buildTaskMembers(Task task) {
@@ -80,7 +89,7 @@ public class SemiSyncService extends DeploySchemaService {
 
         /**
          * 第三方组件信息表，type区分类型
-         * type: 1-orchestrator集群
+         * type: orchestrator集群
          */
         if (StringUtils.isBlank(task.getOrchClusterId())) {
 

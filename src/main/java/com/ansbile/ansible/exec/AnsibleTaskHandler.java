@@ -50,7 +50,7 @@ public class AnsibleTaskHandler {
      */
     public void call(Task task) {
         //0. 生成mysql集群id
-        task.setMysqlGroupId(UUID.randomUUID().toString().replace("-", "").toLowerCase());
+        task.setMysqlClusterId(UUID.randomUUID().toString().replace("-", "").toLowerCase());
 
         DeploySchemaService deployService = deploySchemaRegister.getDeploySchemaService(task.getTaskType());
         //1. 生成子任务，不同的部署类型生成的子任务不一样
