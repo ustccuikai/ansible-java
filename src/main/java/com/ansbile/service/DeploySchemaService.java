@@ -1,7 +1,7 @@
 package com.ansbile.service;
 
-import com.ansbile.model.Task;
-import com.ansbile.model.TaskMember;
+import com.ansbile.dao.entity.Task;
+import com.ansbile.dao.entity.TaskMember;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,8 +22,9 @@ public abstract class DeploySchemaService {
                 .playbookName(playbookName)
                 .inventoryJson(task.getInventoryJson());
 
-        if (StringUtils.isNotBlank(tags))
+        if (StringUtils.isNotBlank(tags)) {
             builder.playbookTags(tags);
+        }
         if (MapUtils.isNotEmpty(paramMap)) {
             builder.executorParam(new GsonBuilder().create().toJson(paramMap));
         }

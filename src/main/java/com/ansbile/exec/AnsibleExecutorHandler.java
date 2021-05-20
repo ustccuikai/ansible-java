@@ -2,6 +2,7 @@ package com.ansbile.exec;
 
 import com.ansbile.config.AnsiblePlaybookArgs;
 import com.ansbile.config.AnsiblePlaybookArgsBuilder;
+import com.ansbile.dao.entity.TaskMember;
 import com.ansbile.model.*;
 import com.ansbile.service.TaskMemberService;
 import com.ansbile.util.TimeUtils;

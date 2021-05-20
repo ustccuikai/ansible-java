@@ -1,6 +1,6 @@
 package com.ansbile.service;
 
-import com.ansbile.model.Task;
+import com.ansbile.dao.entity.Task;
 
 public interface TaskService {
 

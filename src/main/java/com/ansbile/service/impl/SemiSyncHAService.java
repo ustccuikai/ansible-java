@@ -1,7 +1,7 @@
 package com.ansbile.service.impl;
 
-import com.ansbile.model.Task;
-import com.ansbile.model.TaskMember;
+import com.ansbile.dao.entity.Task;
+import com.ansbile.dao.entity.TaskMember;
 import com.ansbile.service.DeploySchemaService;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.ansbile.model;
+package com.ansbile.dao.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Table(name = "task_member")
 @Data
+@Entity
 @Builder
 public class TaskMember {
     @Id
@@ -19,12 +20,6 @@ public class TaskMember {
 
     @Column(name = "inventory_json")
     private String inventoryJson;
-
-//    @Column(name = "hosts")
-//    private String hosts;
-
-//    @Column(name = "member_type")
-//    private String memberType;
 
     @Column(name = "become_password")
     private String becomePassword;

@@ -1,6 +1,8 @@
 package com.ansbile.exec;
 
 import com.ansbile.config.AnsiblePlaybookArgs;
+import com.ansbile.dao.entity.Task;
+import com.ansbile.dao.entity.TaskMember;
 import com.ansbile.model.*;
 import com.ansbile.service.DeploySchemaService;
 import com.ansbile.service.TaskMemberService;

@@ -1,4 +1,4 @@
-package com.ansbile.model;
+package com.ansbile.dao.entity;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Table(name = "task")
 @Data
+@Entity
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,12 @@ public class Task {
 
     @Column(name = "task_param")
     private String taskParam;
+
+    /**
+     * 复用orchestrator集群的id
+     */
+    @Column(name = "orch_cluster_id")
+    private String orchClusterId;
 
     /**
      * 子任务的个数，对应安装能拆分的步骤的数量
