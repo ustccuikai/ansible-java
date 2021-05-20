@@ -1,6 +1,6 @@
-package com.ansbile.config;
+package com.ansbile.ansible.config;
 
-import com.ansbile.model.AnsibleInventory;
+import com.ansbile.ansible.model.AnsibleInventory;
 import com.google.common.collect.Maps;
 import lombok.Builder;
 import lombok.Data;

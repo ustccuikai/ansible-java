@@ -1,6 +1,6 @@
-package com.ansbile.config;
+package com.ansbile.ansible.config;
 
-import com.ansbile.inventory.AnsibleInventoryWriter;
+import com.ansbile.ansible.inventory.AnsibleInventoryWriter;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import org.apache.commons.exec.CommandLine;

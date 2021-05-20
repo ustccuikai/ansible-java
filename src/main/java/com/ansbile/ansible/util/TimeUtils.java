@@ -1,4 +1,4 @@
-package com.ansbile.util;
+package com.ansbile.ansible.util;
 
 import lombok.extern.slf4j.Slf4j;
 

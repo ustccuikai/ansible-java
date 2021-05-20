@@ -1,9 +1,9 @@
-package com.ansbile.inventory;
+package com.ansbile.ansible.inventory;
 
-import com.ansbile.model.AnsibleHost;
-import com.ansbile.model.AnsibleGroup;
-import com.ansbile.model.AnsibleInventory;
-import com.ansbile.model.AnsibleVariable;
+import com.ansbile.ansible.model.AnsibleHost;
+import com.ansbile.ansible.model.AnsibleGroup;
+import com.ansbile.ansible.model.AnsibleInventory;
+import com.ansbile.ansible.model.AnsibleVariable;
 
 import java.io.File;
 import java.io.FileOutputStream;

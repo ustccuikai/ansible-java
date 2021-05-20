@@ -1,7 +1,7 @@
 package com.ansbile.service.impl;
 
-import com.ansbile.model.AnsibleGroup;
-import com.ansbile.model.AnsibleInventory;
+import com.ansbile.ansible.model.AnsibleGroup;
+import com.ansbile.ansible.model.AnsibleInventory;
 import com.ansbile.dao.entity.Task;
 import com.ansbile.dao.entity.TaskMember;
 import com.ansbile.service.DeploySchemaService;

@@ -1,4 +1,4 @@
-package com.ansbile.exec;
+package com.ansbile.ansible.exec;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,9 +1,10 @@
 package com.ansbile;
 
+import com.ansbile.ansible.config.AnsiblePlaybookArgs;
+import com.ansbile.ansible.model.AnsibleHost;
 import com.ansbile.dao.entity.TaskMember;
-import com.ansbile.exec.AnsibleExecutorHandler;
-import com.ansbile.model.*;
-import com.ansbile.config.AnsiblePlaybookArgs;
+import com.ansbile.ansible.exec.AnsibleExecutorHandler;
+import com.ansbile.ansible.model.*;
 import com.ansbile.service.TaskMemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

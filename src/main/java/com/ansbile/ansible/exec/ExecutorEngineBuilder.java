@@ -1,4 +1,4 @@
-package com.ansbile.exec;
+package com.ansbile.ansible.exec;
 
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;

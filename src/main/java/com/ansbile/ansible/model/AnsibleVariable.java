@@ -1,4 +1,4 @@
-package com.ansbile.model;
+package com.ansbile.ansible.model;
 
 import org.springframework.util.ClassUtils;
 
