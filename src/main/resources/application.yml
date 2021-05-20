@@ -8,4 +8,4 @@ spring:
     database: mysql
     hibernate:
       ddl_auto: update
-    show_sql: true
+    show_sql: false

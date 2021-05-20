@@ -16,9 +16,10 @@ public abstract class DeploySchemaService {
     //安装成功后执行后置处理
     public abstract void postProcessor(Task task);
 
-    public TaskMember buildTaskMember(Task task, String playbookName,
+    public TaskMember buildTaskMember(Task task, String name, String playbookName,
                                       Map<String, String> paramMap, String tags) {
         TaskMember.TaskMemberBuilder builder = TaskMember.builder()
+                .taskMemberName(name)
                 .playbookName(playbookName)
                 .inventoryJson(task.getInventoryJson());
 

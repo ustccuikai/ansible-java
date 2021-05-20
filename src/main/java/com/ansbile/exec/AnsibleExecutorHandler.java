@@ -8,8 +8,8 @@ import com.ansbile.service.TaskMemberService;
 import com.ansbile.util.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -73,7 +73,7 @@ public class AnsibleExecutorHandler {
                             .stopType(resultHandler.getExitValue() == 0 ? TaskStopType.COMPLETE_STOP.getType() : -1)
                             .build();
                     System.out.println(taskStatus);
-                    saveServerTaskMember(member, taskStatus);
+                    saveServerTaskMember(member.getId(), taskStatus);
                     log.info("ExitValue is " + resultHandler.getExitValue());
                     return;
                 } else {
@@ -88,13 +88,15 @@ public class AnsibleExecutorHandler {
         }
     }
 
-    private void saveServerTaskMember(TaskMember member, TaskStatusBO taskStatus) {
+    private void saveServerTaskMember(Long id, TaskStatusBO taskStatus) {
+        TaskMember member = taskMemberService.queryTaskMemberById(id);
+
         member.setFinalized(taskStatus.getFinalized());
         member.setExitValue(taskStatus.getExitValue());
         member.setStopType(taskStatus.getStopType());
         member.setTaskStatus(taskStatus.getTaskStatus());
 
-        if (!StringUtils.isEmpty(taskStatus.getTaskResult()))
+        if (StringUtils.isNotBlank(taskStatus.getTaskResult()))
             member.setTaskResult(taskStatus.getTaskResult());
 
         taskMemberService.updateTaskMember(member);

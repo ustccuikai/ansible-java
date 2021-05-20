@@ -32,20 +32,25 @@ public class SemiSyncService extends DeploySchemaService {
         Map<String, Map<String, String>> paramMap = new GsonBuilder().create().fromJson(task.getTaskParam(), type);
 
         //1. mysql5.7
-        taskMembers.add(buildTaskMember(task, "21-mysql57", paramMap.get("mysql"), null));
+        taskMembers.add(buildTaskMember(task, "安装mysql集群", "21-mysql57",
+                paramMap.get("mysql"), null));
 
         //2. orchestrator,复用已有集群需要增加--tags discover
         if (StringUtils.isBlank(task.getOrchClusterId())) {
-            taskMembers.add(buildTaskMember(task, "22-orchestrator", paramMap.get("orchestrator"), null));
+            taskMembers.add(buildTaskMember(task, "安装并配置orchestrator集群", "22-orchestrator",
+                    paramMap.get("orchestrator"), null));
         } else {
-            taskMembers.add(buildTaskMember(task, "22-orchestrator", paramMap.get("orchestrator"), "discover"));
+            taskMembers.add(buildTaskMember(task, "配置orchestrator集群","22-orchestrator",
+                    paramMap.get("orchestrator"), "discover"));
         }
 
         //3. mysqld exporter
-        taskMembers.add(buildTaskMember(task, "23-mysqld_exporter", null, null));
+        taskMembers.add(buildTaskMember(task, "部署mysql监控agent", "23-mysqld_exporter",
+                null, null));
 
         //4. node exporter
-        taskMembers.add(buildTaskMember(task, "03-node_exporter", null, null));
+        taskMembers.add(buildTaskMember(task, "部署机器监控agent","03-node_exporter",
+                null, null));
 
         //TODO:5. 配置监控
 

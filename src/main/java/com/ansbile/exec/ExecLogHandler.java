@@ -23,6 +23,7 @@ public class ExecLogHandler extends LogOutputStream {
         System.out.println(line);
         try {
             outputStream.write(line.getBytes());
+            outputStream.write("\\r\\n".getBytes());
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

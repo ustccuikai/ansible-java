@@ -1,6 +1,8 @@
 package com.ansbile.dao.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,10 +10,12 @@ import java.util.Date;
 @Table(name = "task")
 @Data
 @Entity
+@DynamicUpdate
+@DynamicInsert
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     //mysql集群id，安装时自动生成
     @Column(name = "mysql_group_id")

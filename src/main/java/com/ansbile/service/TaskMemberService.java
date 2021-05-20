@@ -11,11 +11,11 @@ public interface TaskMemberService {
 
     void updateTaskMember(TaskMember taskMember);
 
-    TaskMember queryTaskMemberById(int id);
+    TaskMember queryTaskMemberById(long id);
 
-    void updateTaskMemberLog(int id, String outputMsg, String errorMsg);
+    void updateTaskMemberLog(long id, String outputMsg, String errorMsg);
 
-    List<TaskMember> queryTaskMemberByTaskStatus(int taskId, String taskStatus, int size);
+    List<TaskMember> queryTaskMemberByTaskStatus(long taskId, String taskStatus, int size);
 
-    int countTaskMemberByTaskStatus(int taskId, String taskStatus, int size);
+    int countTaskMemberByTaskStatus(long taskId, String taskStatus, int size);
 }

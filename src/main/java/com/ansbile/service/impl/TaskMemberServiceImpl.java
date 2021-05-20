@@ -29,13 +29,13 @@ public class TaskMemberServiceImpl implements TaskMemberService {
     }
 
     @Override
-    public TaskMember queryTaskMemberById(int id) {
-        Optional<TaskMember> task = repository.findById((long)id);
+    public TaskMember queryTaskMemberById(long id) {
+        Optional<TaskMember> task = repository.findById(id);
         return task.orElse(null);
     }
 
     @Override
-    public void updateTaskMemberLog(int id, String outputMsg, String errorMsg) {
+    public void updateTaskMemberLog(long id, String outputMsg, String errorMsg) {
         TaskMember taskMember = queryTaskMemberById(id);
         taskMember.setOutputMsg(outputMsg);
         taskMember.setErrorMsg(errorMsg);
@@ -44,12 +44,12 @@ public class TaskMemberServiceImpl implements TaskMemberService {
     }
 
     @Override
-    public List<TaskMember> queryTaskMemberByTaskStatus(int taskId, String taskStatus, int size) {
+    public List<TaskMember> queryTaskMemberByTaskStatus(long taskId, String taskStatus, int size) {
         return null;
     }
 
     @Override
-    public int countTaskMemberByTaskStatus(int taskId, String taskStatus, int size) {
+    public int countTaskMemberByTaskStatus(long taskId, String taskStatus, int size) {
         return 0;
     }
 }

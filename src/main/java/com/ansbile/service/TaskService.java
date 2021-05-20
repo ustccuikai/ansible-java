@@ -8,5 +8,5 @@ public interface TaskService {
 
     void updateTask(Task task);
 
-    Task queryTaskById(int id);
+    Task queryTaskById(long id);
 }

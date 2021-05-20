@@ -1,7 +1,11 @@
 package com.ansbile.dao.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,13 +14,20 @@ import java.util.Date;
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamicUpdate
+@DynamicInsert
 public class TaskMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "task_id")
-    private Integer taskId;
+    private Long taskId;
+
+    @Column(name = "task_member_name")
+    private String taskMemberName;
 
     @Column(name = "inventory_json")
     private String inventoryJson;
@@ -30,7 +41,7 @@ public class TaskMember {
     @Column(name = "playbook_tags")
     private String playbookTags;
 
-    @Column(name = "executor_param")
+    @Column(name = "executor_param", columnDefinition = "blob COMMENT '任务执行参数'")
     private String executorParam;
 
     /**
@@ -62,13 +73,13 @@ public class TaskMember {
     /**
      * 子任务的正常日志
      */
-    @Column(name = "output_msg")
+    @Column(name = "output_msg", columnDefinition = "blob COMMENT '任务日志'")
     private String outputMsg;
 
     /**
      * 子任务的错误日志
      */
-    @Column(name = "error_msg")
+    @Column(name = "error_msg", columnDefinition = "blob COMMENT '任务错误日志'")
     private String errorMsg;
 
     @Column(name = "create_time", insertable = false, updatable = false)

@@ -26,8 +26,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task queryTaskById(int id) {
-        Optional<Task> task = repository.findById((long)id);
+    public Task queryTaskById(long id) {
+        Optional<Task> task = repository.findById(id);
         return task.orElse(null);
     }
 }
