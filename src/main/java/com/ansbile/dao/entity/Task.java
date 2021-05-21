@@ -32,10 +32,10 @@ public class Task {
     @Column(name = "task_type")
     private String taskType;
 
-    @Column(name = "inventory_json")
+    @Column(name = "inventory_json", columnDefinition = "blob COMMENT 'JSON形式的inventory信息'")
     private String inventoryJson;
 
-    @Column(name = "task_param")
+    @Column(name = "task_param", columnDefinition = "blob COMMENT '任务执行参数'")
     private String taskParam;
 
     /**

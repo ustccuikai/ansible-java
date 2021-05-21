@@ -31,7 +31,7 @@ public class TaskMember {
     @Column(name = "task_member_name")
     private String taskMemberName;
 
-    @Column(name = "inventory_json")
+    @Column(name = "inventory_json", columnDefinition = "blob COMMENT 'JSON形式的inventory信息'")
     private String inventoryJson;
 
     @Column(name = "become_password")
